@@ -5,8 +5,8 @@ import numpy as np
 class Preceptron:
     w0 = 0
     w1 = 0
-    w2 = 0
-    error=0
+    w2 = 1
+
     def learn(self,x, y, out):
         sum=self.w1*x+self.w2*y+self.w0*1
         if sum<=0:
@@ -17,7 +17,8 @@ class Preceptron:
             self.w0=self.w0+out
             self.w1=self.w1+out*x
             self.w2=self.w2+out*y
-        return out==sum
+            return 0
+        return 1
     def calc_a(self):
         return -self.w1/self.w2
     def calc_b(self):
@@ -53,17 +54,21 @@ def function(a,b,x):
 
 
 if __name__ == "__main__":
-    x = np.linspace(0, 100, 10)
-    y=[]
-    for i in x:
-        y.append(function(1,0,i))
-        
-    A_x=[]
-    A_y=[]
-    B_x=[]
-    B_y=[]
+    p = Preceptron()
+    error=1
     A_x,A_y,B_x,B_y = readFromFile()
+    while error>0.07:
+        count=0
+        for i in range(0,15):
+            count=count+p.learn(A_x[i],A_y[i],1)
+            count=count+p.learn(B_x[i],B_y[i],-1)
+        error=1-count/32
+        print("%f" % (error))
 
+    y=[]
+    x = np.linspace(0, 100, 10)
+    for i in x:
+        y.append(function(p.calc_a(),p.calc_b(),i))
     plt.plot(x,y)
     plt.scatter(A_x,A_y)
     plt.scatter(B_x,B_y)
