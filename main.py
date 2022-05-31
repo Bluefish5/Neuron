@@ -48,7 +48,7 @@ def readFromFile():
                 B_y.append(float(i.split("\t")[1]))
     return A_x,A_y,B_x,B_y
 
-def function(a,b,x):
+def lin_function(a,b,x):
     return a*x+b
 
 
@@ -56,6 +56,8 @@ def function(a,b,x):
 if __name__ == "__main__":
     p = Preceptron()
     error=1
+    
+    x = np.linspace(0, 100, 10)
     A_x,A_y,B_x,B_y = readFromFile()
     while error>0.07:
         count=0
@@ -64,13 +66,16 @@ if __name__ == "__main__":
             count=count+p.learn(B_x[i],B_y[i],-1)
         error=1-count/32
         print("%f" % (error))
+        y=[]
+        for i in x:
+            y.append(lin_function(p.calc_a(),p.calc_b(),i))
+        plt.plot(x,y)
+        plt.scatter(A_x,A_y)
+        plt.scatter(B_x,B_y)
+        plt.draw()
+        plt.pause(0.0001)
+        plt.clf()
 
-    y=[]
-    x = np.linspace(0, 100, 10)
-    for i in x:
-        y.append(function(p.calc_a(),p.calc_b(),i))
-    plt.plot(x,y)
-    plt.scatter(A_x,A_y)
-    plt.scatter(B_x,B_y)
-    plt.show()
+   
+    
     
