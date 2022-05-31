@@ -12,18 +12,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtWidgets import QApplication, QWidget
+from matplotlib.figure import Figure
 
 class ChartMPL(FigureCanvas):
-    def __init__(self,parent):
-        fig,self.ax = plt.subplots(figsize=(5,4),dpi=100)
-        super().__init__(fig)
-        self.setParent(parent)
-        t = np.arange(0.0,2.0,0.01)
-        s = 1 + np.sin(2*np.pi*t)
-        self.ax.plot(t,s)
-        self.ax.grid()
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.ax = fig.add_subplot(111)
+        super(ChartMPL, self).__init__(fig)
+        
+class Ui_MainWindow(object):
+    def __init__(self,system):
+        self.system=system
 
-class Ui_MainWindow(QWidget):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
@@ -137,6 +137,7 @@ class Ui_MainWindow(QWidget):
         self.oneStepButton = QtWidgets.QPushButton(self.learningFrameUp)
         self.oneStepButton.setMinimumSize(QtCore.QSize(0, 60))
         self.oneStepButton.setObjectName("oneStepButton")
+        self.oneStepButton.clicked.connect(self.actionOnClickOneStep)
 
         self.horizontalLayout_3.addWidget(self.oneStepButton)
         self.autoStepButton = QtWidgets.QPushButton(self.learningFrameUp)
@@ -174,8 +175,8 @@ class Ui_MainWindow(QWidget):
         self.chart = ChartMPL(self)
         self.chart.setObjectName("wykres")
         self.verticalLayout_8.addWidget(self.chart)
-        self.verticalLayout_7.addWidget(self.learningFrameDownChart)
 
+        self.verticalLayout_7.addWidget(self.learningFrameDownChart)
         self.learningFrameDownText = QtWidgets.QFrame(self.learningFrameDown)
         self.learningFrameDownText.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.learningFrameDownText.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -259,15 +260,28 @@ class Ui_MainWindow(QWidget):
     
     def actionOnClickLearning(self):
         self.stackedWidget.setCurrentWidget(self.learningFrame)
+
     def actionOnClickConfiguration(self):
         self.stackedWidget.setCurrentWidget(self.configurationFrame)
 
+    def actionOnClickOneStep(self):
+        self.updatePlot()
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    def updatePlot(self):
+        self.chart.ax.cla()
+        self.getPoints()
+        self.system.oneStepLearning()
+        self.chart.ax.scatter(self.A_x,self.A_y)
+        self.chart.ax.scatter(self.B_x,self.B_y)
+        self.chart.ax.plot(self.F_x, self.F_y, 'r')
+        self.chart.ax.grid()
+        self.chart.draw()
+
+    def getPoints(self):
+        self.A_x = self.system.A_x
+        self.A_y = self.system.A_y
+        self.B_x = self.system.B_x
+        self.B_y = self.system.B_y
+        self.F_x = self.system.F_x
+        self.F_y = self.system.F_y
+
