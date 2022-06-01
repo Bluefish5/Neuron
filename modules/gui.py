@@ -13,6 +13,9 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtWidgets import QApplication, QWidget
 from matplotlib.figure import Figure
+import time
+
+from modules.perceptron import Preceptron
 
 class ChartMPL(FigureCanvas):
     def __init__(self, parent=None, width=5, height=4, dpi=100):
@@ -132,6 +135,7 @@ class Ui_MainWindow(object):
         self.restartButton = QtWidgets.QPushButton(self.learningFrameUp)
         self.restartButton.setMinimumSize(QtCore.QSize(0, 60))
         self.restartButton.setObjectName("restartButton")
+        self.restartButton.clicked.connect(self.actionOnClickRestart)
 
         self.horizontalLayout_3.addWidget(self.restartButton)
         self.oneStepButton = QtWidgets.QPushButton(self.learningFrameUp)
@@ -174,7 +178,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_8.setSpacing(0)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
 
+        """
+        *           *
+        * Wykres    *
+        *           *
+        """
+        self.timer = None
         self.chart = ChartMPL(self)
+        self.chart.show()
         self.chart.setObjectName("wykres")
         self.verticalLayout_8.addWidget(self.chart)
 
@@ -241,9 +252,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.rightMainFrame)
         self.verticalLayout.addWidget(self.mainFrame)
         MainWindow.setCentralWidget(self.mainWidget)
+        
+        self.codeEdition.setPlainText(str(self.system.fileText))
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -259,27 +272,47 @@ class Ui_MainWindow(object):
         self.errorChartButton.setText(_translate("MainWindow", "Wykres błędów"))
         self.resultText.setPlainText(_translate("MainWindow", "wynik.\n"""))
         self.stopConditionButton.setText(_translate("MainWindow", "ustawienie warunku stopu"))
+
     
     def actionOnClickLearning(self):
         self.stackedWidget.setCurrentWidget(self.learningFrame)
+        self.getPoints()
+        self.chart.ax.cla()
+        self.chart.ax.plot(self.F_x, self.F_y, 'r')
+        self.chart.ax.scatter(self.A_x,self.A_y)
+        self.chart.ax.scatter(self.B_x,self.B_y)
+        self.chart.ax.grid()
+        self.chart.draw()
 
     def actionOnClickConfiguration(self):
         self.stackedWidget.setCurrentWidget(self.configurationFrame)
 
     def actionOnClickOneStep(self):
         self.updatePlot()
+        
+    def actionOnClickRestart(self):
+        self.restart()
+        self.chart.ax.cla()
+        self.chart.ax.scatter(self.A_x,self.A_y)
+        self.chart.ax.scatter(self.B_x,self.B_y)
+        self.chart.ax.grid()
+        self.chart.draw()
+
 
     def actionOnClickAutoStep(self):
-
-        while self.system.error > 0.01:
+        if self.timer == None:
+            self.autoStepButton.setText("Stop")
             self.timer = QtCore.QTimer()
             self.timer.setInterval(100)
             self.timer.timeout.connect(self.updatePlot)
             self.timer.start()
-        self.timer.stop()
-
+        else:
+            self.autoStepButton.setText("Auto step")
+            self.timer.stop()
+            self.timer = None
+            
     def updatePlot(self):
-        #self.chart.ax.cla()
+        self.chart.ax.cla()
         try:
             self.system.oneStepLearning()
             self.getPoints()
@@ -291,8 +324,7 @@ class Ui_MainWindow(object):
         self.chart.ax.scatter(self.B_x,self.B_y)
         self.chart.ax.grid()
         self.chart.draw()
-        #self.chart.ax.pause(0.0001)
-        self.chart.clf()
+        
 
     def getPoints(self):
         self.A_x = self.system.A_x
@@ -301,4 +333,7 @@ class Ui_MainWindow(object):
         self.B_y = self.system.B_y
         self.F_x = self.system.F_x
         self.F_y = self.system.F_y
-    
+    def restart(self):
+        self.system.F_x = np.linspace(0, 100, 10)
+        self.system.F_y = [1,2,3,4,5,6,7,8,9,10]
+        self.system.p = Preceptron()

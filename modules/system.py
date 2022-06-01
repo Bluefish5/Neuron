@@ -11,6 +11,8 @@ class System:
         self.error = 1
         self.F_x = np.linspace(0, 100, 10)
         self.F_y = [1,2,3,4,5,6,7,8,9,10]
+        self.fileText = ""
+        self.result = ""
         self.readFromFile()
         self.p = Preceptron()
 
@@ -19,6 +21,7 @@ class System:
         text = file.readlines()
         x=0
         for i in text:
+            self.fileText=  self.fileText+str(i)
             if i[0] == "#":
                 pass
             elif i[0] == "\n":
