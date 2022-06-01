@@ -1,3 +1,6 @@
+from os import execl
+
+
 class Preceptron:
     def __init__(self):
         self.w0=0
@@ -16,6 +19,14 @@ class Preceptron:
             return 0
         return 1
     def calc_a(self):
-        return -self.w1/self.w2
+        try:
+            return -self.w1/self.w2
+        except:
+            raise Exception("ZERO")
+            
     def calc_b(self):
-        return -self.w0/self.w2
+        try:
+            return -self.w0/self.w2
+        except:
+            raise Exception("ZERO")
+        

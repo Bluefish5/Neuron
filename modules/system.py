@@ -9,10 +9,10 @@ class System:
         self.B_x = []
         self.B_y = []
         self.error = 1
-        self.count=0
         self.F_x = np.linspace(0, 100, 10)
         self.F_y = [1,2,3,4,5,6,7,8,9,10]
         self.readFromFile()
+        self.p = Preceptron()
 
     def readFromFile(self):
         file = open("data.txt", "r")
@@ -37,15 +37,21 @@ class System:
         return a*x+b
 
     def oneStepLearning(self):
-        p = Preceptron()
-        
+        count = 0
         for i in range(0,15):
-            self.count=self.count+p.learn(self.A_x[i],self.A_y[i],1)
-            self.count=self.count+p.learn(self.B_x[i],self.B_y[i],-1)
-        self.error=1-self.count/32
+            count=count+self.p.learn(self.A_x[i],self.A_y[i],1)
+        for i in range(0,15):
+            count=count+self.p.learn(self.B_x[i],self.B_y[i],-1)
+        self.error=1-count/32
         print("%f" % (self.error))
         self.F_y=[]
+        try:
+            b = self.p.calc_b()
+            a = self.p.calc_a()
+        except:
+            raise Exception("Vert")
         for i in self.F_x:
-            self.F_y.append(self.lin_function(p.calc_a(),p.calc_b(),i))
+            self.F_y.append(self.lin_function(a,b,i))
+
             
             

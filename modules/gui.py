@@ -143,6 +143,8 @@ class Ui_MainWindow(object):
         self.autoStepButton = QtWidgets.QPushButton(self.learningFrameUp)
         self.autoStepButton.setMinimumSize(QtCore.QSize(0, 60))
         self.autoStepButton.setObjectName("autoStepButton")
+        self.autoStepButton.clicked.connect(self.actionOnClickAutoStep)
+        
 
         self.horizontalLayout_3.addWidget(self.autoStepButton)
         self.errorChartButton = QtWidgets.QPushButton(self.learningFrameUp)
@@ -267,15 +269,30 @@ class Ui_MainWindow(object):
     def actionOnClickOneStep(self):
         self.updatePlot()
 
+    def actionOnClickAutoStep(self):
+
+        while self.system.error > 0.01:
+            self.timer = QtCore.QTimer()
+            self.timer.setInterval(100)
+            self.timer.timeout.connect(self.updatePlot)
+            self.timer.start()
+        self.timer.stop()
+
     def updatePlot(self):
-        self.chart.ax.cla()
-        self.getPoints()
-        self.system.oneStepLearning()
+        #self.chart.ax.cla()
+        try:
+            self.system.oneStepLearning()
+            self.getPoints()
+        except:
+            pass
+        else:
+            self.chart.ax.plot(self.F_x, self.F_y, 'r')
         self.chart.ax.scatter(self.A_x,self.A_y)
         self.chart.ax.scatter(self.B_x,self.B_y)
-        self.chart.ax.plot(self.F_x, self.F_y, 'r')
         self.chart.ax.grid()
         self.chart.draw()
+        #self.chart.ax.pause(0.0001)
+        self.chart.clf()
 
     def getPoints(self):
         self.A_x = self.system.A_x
@@ -284,4 +301,4 @@ class Ui_MainWindow(object):
         self.B_y = self.system.B_y
         self.F_x = self.system.F_x
         self.F_y = self.system.F_y
-
+    
