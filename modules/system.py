@@ -12,7 +12,7 @@ class System:
         self.count=0
         self.F_x = np.linspace(0, 100, 10)
         self.F_y = [1,2,3,4,5,6,7,8,9,10]
-        self.system.readFromFile()
+        self.readFromFile()
 
     def readFromFile(self):
         file = open("data.txt", "r")
@@ -33,7 +33,7 @@ class System:
                     self.B_y.append(float(i.split("\t")[1]))
         
 
-    def lin_function(a,b,x):
+    def lin_function(self,a,b,x):
         return a*x+b
 
     def oneStepLearning(self):
@@ -46,7 +46,6 @@ class System:
         print("%f" % (self.error))
         self.F_y=[]
         for i in self.F_x:
-            self.F_y.append(i)
-            #self.F_y.append(self.lin_function(p.calc_a(),p.calc_b(),i))
-            #popsulem :(
+            self.F_y.append(self.lin_function(p.calc_a(),p.calc_b(),i))
+            
             
