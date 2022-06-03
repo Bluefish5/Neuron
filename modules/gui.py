@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 from .error import Ui_Dialog
-from PyQt5 import QtCore, QtGui, QtWidgets 
+from PyQt5 import QtCore, QtGui, QtWidgets
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtWidgets import QApplication, QWidget
@@ -15,7 +15,7 @@ class ChartMPL(FigureCanvas):
         fig = Figure(figsize=(width, height), dpi=dpi)
         self.ax = fig.add_subplot(111)
         super(ChartMPL, self).__init__(fig)
-        
+
 class Ui_MainWindow(object):
     def __init__(self,system):
         self.system=system
@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
         self.readButton.setMinimumSize(QtCore.QSize(0, 30))
         self.readButton.setObjectName("readButton")
         self.readButton.clicked.connect(self.browsefiles)
-        
+
 
         self.verticalLayout_2.addWidget(self.readButton)
         self.saveButton = QtWidgets.QPushButton(self.leftMainFrame)
@@ -69,7 +69,7 @@ class Ui_MainWindow(object):
         self.configurationLearingFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.configurationLearingFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.configurationLearingFrame.setObjectName("configurationLearingFrame")
-        
+
 
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.configurationLearingFrame)
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -144,13 +144,13 @@ class Ui_MainWindow(object):
         self.autoStepButton.setMinimumSize(QtCore.QSize(0, 60))
         self.autoStepButton.setObjectName("autoStepButton")
         self.autoStepButton.clicked.connect(self.actionOnClickAutoStep)
-        
+
 
         self.horizontalLayout_3.addWidget(self.autoStepButton)
         self.errorChartButton = QtWidgets.QPushButton(self.learningFrameUp)
         self.errorChartButton.setMinimumSize(QtCore.QSize(0, 60))
         self.errorChartButton.setObjectName("errorChartButton")
-        
+
 
         self.horizontalLayout_3.addWidget(self.errorChartButton)
         self.verticalLayout_5.addWidget(self.learningFrameUp)
@@ -250,7 +250,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.rightMainFrame)
         self.verticalLayout.addWidget(self.mainFrame)
         MainWindow.setCentralWidget(self.mainWidget)
-        
+
         self.codeEdition.setPlainText(str(self.system.fileText))
 
         self.retranslateUi(MainWindow)
@@ -271,7 +271,7 @@ class Ui_MainWindow(object):
         self.resultText.setPlainText(_translate("MainWindow", "wynik.\n"""))
         self.stopConditionButton.setText(_translate("MainWindow", "ustawienie warunku stopu"))
 
-    
+
     def actionOnClickLearning(self):
         self.stackedWidget.setCurrentWidget(self.learningFrame)
         self.getPoints()
@@ -283,14 +283,14 @@ class Ui_MainWindow(object):
         self.chart.draw()
         self.system.fileText = self.codeEdition.toPlainText()
         self.system.fileTextToCoordinates()
-        
+
 
     def actionOnClickConfiguration(self):
         self.stackedWidget.setCurrentWidget(self.configurationFrame)
 
     def actionOnClickOneStep(self):
         self.updatePlot()
-        
+
     def actionOnClickRestart(self):
         self.restart()
         self.chart.ax.cla()
@@ -311,7 +311,7 @@ class Ui_MainWindow(object):
             self.autoStepButton.setText("Auto step")
             self.timer.stop()
             self.timer = None
-            
+
     def updatePlot(self):
         self.chart.ax.cla()
         try:
@@ -325,7 +325,7 @@ class Ui_MainWindow(object):
         self.chart.ax.scatter(self.B_x,self.B_y)
         self.chart.ax.grid()
         self.chart.draw()
-        
+
 
     def getPoints(self):
         self.A_x = self.system.A_x
@@ -335,11 +335,9 @@ class Ui_MainWindow(object):
         self.F_x = self.system.F_x
         self.F_y = self.system.F_y
     def restart(self):
-        self.getPoints()
-        self.system.F_x = np.linspace(0, 100, 10)
-        self.system.F_y = [1,2,3,4,5,6,7,8,9,10]
+        self.system.F_y = self.system.F_x
         self.system.p = Preceptron()
-        
+
 
     def actionOnClickErrorConfiguration(self):
         self.errorConfiguration()
@@ -350,7 +348,7 @@ class Ui_MainWindow(object):
         ui.setupUi(Dialog)
         Dialog.show()
         Dialog.exec_()
-        
+
     def browsefiles(self):
         fileName = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', 'C:\\', 'Text Files (*.txt)')
         self.system.fileName = fileName[0]

@@ -10,16 +10,14 @@ class System:
         self.B_x = []
         self.B_y = []
         self.error = 1
-        self.maxIteration = 10000
-        self.F_x = np.linspace(0, 100, 10)
-        self.F_y = [1,2,3,4,5,6,7,8,9,10]
         self.fileText = ""
         self.result = ""
-        self.p = Preceptron()
-        self.fileName = "data.txt"
         self.readFromFile()
-        self.fileTextToCoordinates()
-        
+        self.most_left_x = min(min(self.A_x),min(self.B_x))
+        self.most_right_x = max(max(self.A_x),max(self.B_x))
+        self.p = Preceptron()
+        self.F_x = np.linspace(self.most_left_x, self.most_right_x, 10)
+        self.F_y = self.F_x
 
     def readFromFile(self):
         file = open(self.fileName, "r")
@@ -28,8 +26,8 @@ class System:
         self.fileText = ""
         for i in text:
             self.fileText = self.fileText+str(i)
-    
-    
+
+
     def fileTextToCoordinates(self):
         self.A_x = []
         self.A_y = []
@@ -53,20 +51,17 @@ class System:
 
     def oneStepLearning(self):
         count = 0
-        for i in range(0,15):
+        for i in range(0,len(self.A_x)):
             count=count+self.p.learn(self.A_x[i],self.A_y[i],1)
-        for i in range(0,15):
-            count=count+self.p.learn(self.B_x[i],self.B_y[i],-1)
-        self.error=1-count/32
+        for i in range(0,len(self.B_x)):
+            count=count+self.p.learn(self.B_x[i],self.B_y[i],0)
+        self.error=1-count/(len(self.A_x)+len(self.B_x))
         print("%f" % (self.error))
-        self.F_y=[]
         try:
             b = self.p.calc_b()
             a = self.p.calc_a()
         except:
             raise Exception("Vert")
+        self.F_y=[]
         for i in self.F_x:
             self.F_y.append(self.lin_function(a,b,i))
-
-            
-            
