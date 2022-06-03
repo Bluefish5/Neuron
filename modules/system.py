@@ -1,3 +1,4 @@
+from traceback import print_tb
 from .perceptron import Preceptron
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,32 +10,43 @@ class System:
         self.B_x = []
         self.B_y = []
         self.error = 1
+        self.maxIteration = 10000
         self.F_x = np.linspace(0, 100, 10)
         self.F_y = [1,2,3,4,5,6,7,8,9,10]
         self.fileText = ""
         self.result = ""
-        self.readFromFile()
         self.p = Preceptron()
+        self.fileName = "data.txt"
+        self.readFromFile()
+        self.fileTextToCoordinates()
+        
 
     def readFromFile(self):
-        file = open("data.txt", "r")
+        file = open(self.fileName, "r")
         text = file.readlines()
         x=0
+        self.fileText = ""
         for i in text:
-            self.fileText=  self.fileText+str(i)
-            if i[0] == "#":
-                pass
-            elif i[0] == "\n":
-                x=x+1
+            self.fileText = self.fileText+str(i)
+    
+    
+    def fileTextToCoordinates(self):
+        self.A_x = []
+        self.A_y = []
+        self.B_x = []
+        self.B_y = []
+        x=0
+        for i in self.fileText.split("\n"):
+            if i!="":
+                if i[0]!="#":
+                    if x == 0:
+                        self.A_x.append(float(i.split("\t")[0]))
+                        self.A_y.append(float(i.split("\t")[1]))
+                    elif x == 1:
+                        self.B_x.append(float(i.split("\t")[0]))
+                        self.B_y.append(float(i.split("\t")[1]))
             else:
-                if x == 0:
-                    self.A_x.append(float(i.split("\t")[0]))
-                    self.A_y.append(float(i.split("\t")[1]))
-                elif x == 1:
-                    pass
-                    self.B_x.append(float(i.split("\t")[0]))
-                    self.B_y.append(float(i.split("\t")[1]))
-        
+                x=x+1
 
     def lin_function(self,a,b,x):
         return a*x+b
