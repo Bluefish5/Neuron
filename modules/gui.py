@@ -334,6 +334,5 @@ class Ui_MainWindow(object):
         self.F_x = self.system.F_x
         self.F_y = self.system.F_y
     def restart(self):
-        self.system.F_x = np.linspace(0, 100, 10)
-        self.system.F_y = [1,2,3,4,5,6,7,8,9,10]
+        self.system.F_y = self.system.F_x
         self.system.p = Preceptron()
