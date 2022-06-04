@@ -6,7 +6,7 @@ class Preceptron:
         self.w0=100
         self.w1=10
         self.w2=10
-        self.l=1
+        self.l=0.5
     def learn(self,x, y, out):
         sum=(self.w1*x)+(self.w2*y)+(self.w0*1)
         if sum<0:
@@ -20,13 +20,13 @@ class Preceptron:
         return (diff==0)
     def calc_a(self):
         try:
-            return -self.w1/self.w2
+            return -float(self.w1)/self.w2
         except:
             raise Exception("ZERO")
             
     def calc_b(self):
         try:
-            return -self.w0/self.w2
+            return -float(self.w0)/self.w2
         except:
             raise Exception("ZERO")
         
