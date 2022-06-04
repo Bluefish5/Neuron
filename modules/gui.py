@@ -338,7 +338,8 @@ class Ui_MainWindow(object):
     def restart(self):
         self.system.F_y = self.system.F_x
         self.system.p = Preceptron(self.system)
-        self.system.resoultText = ""
+        self.system.resultText = ""
+        self.resultText.setPlainText("")
 
 
     def actionOnClickErrorConfiguration(self):
