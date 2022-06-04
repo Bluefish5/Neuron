@@ -270,8 +270,8 @@ class Ui_MainWindow(object):
         self.oneStepButton.setText(_translate("MainWindow", "One Step"))
         self.autoStepButton.setText(_translate("MainWindow", "Auto step"))
         self.errorChartButton.setText(_translate("MainWindow", "Wykres błędów"))
-        self.resultText.setPlainText(_translate("MainWindow", "wynik.\n"""))
-        self.stopConditionButton.setText(_translate("MainWindow", "ustawienie warunku stopu"))
+        self.resultText.setPlainText(_translate("MainWindow", "Wyniki.\n"""))
+        self.stopConditionButton.setText(_translate("MainWindow", "Ustawienie warunku stopu"))
 
 
     def actionOnClickLearning(self):
@@ -366,7 +366,7 @@ class Ui_MainWindow(object):
 
     def browsefiles(self):
         fileName = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', 'C:\\', 'Text Files (*.txt)')
-        self.system.fileName = fileName[0]
+        self.system.defaultFileName = fileName[0]
         self.system.readFromFile()
         self.restart()
         self.system.fileTextToCoordinates()
