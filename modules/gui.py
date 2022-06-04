@@ -151,6 +151,7 @@ class Ui_MainWindow(object):
         self.errorChartButton = QtWidgets.QPushButton(self.learningFrameUp)
         self.errorChartButton.setMinimumSize(QtCore.QSize(0, 60))
         self.errorChartButton.setObjectName("errorChartButton")
+        self.errorChartButton.clicked.connect(self.showChart)
 
 
         self.horizontalLayout_3.addWidget(self.errorChartButton)
@@ -305,7 +306,7 @@ class Ui_MainWindow(object):
         if self.timer == None:
             self.autoStepButton.setText("Stop")
             self.timer = QtCore.QTimer()
-            self.timer.setInterval(0.1)
+            self.timer.setInterval(0.001)
             self.timer.timeout.connect(self.updatePlot)
             self.timer.start()
         else:
@@ -346,6 +347,8 @@ class Ui_MainWindow(object):
         self.system.p = Preceptron()
         self.system.resultText = ""
         self.resultText.setPlainText("")
+        self.system.tab = []
+        self.system.resultErrorText = ""
 
 
     def actionOnClickErrorConfiguration(self):
@@ -368,7 +371,7 @@ class Ui_MainWindow(object):
 
     def showChart(self):
         Dialog2 = QtWidgets.QDialog()
-        ui2 = Ui_Dialog2()
+        ui2 = Ui_Dialog2(self.system)
         ui2.setupUi(Dialog2)
         Dialog2.show()
         Dialog2.exec_()
