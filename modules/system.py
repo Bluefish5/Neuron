@@ -9,11 +9,14 @@ class System:
         self.A_y = []
         self.B_x = []
         self.B_y = []
-        self.error = 1
+        
         self.fileText = ""
         self.resultText = ""
         self.fileName = "data.txt"
-        self.maxIteration = 100000
+        self.max_iteration = 100000
+        self.curr_iteration = 0
+        self.error = 0.0
+        self.curr_error = 0.0
         self.readFromFile()
         self.fileTextToCoordinates()
         self.most_left_x = min(min(self.A_x),min(self.B_x))
@@ -54,12 +57,13 @@ class System:
 
     def oneStepLearning(self):
         count = 0
+        self.curr_iteration=self.curr_iteration+1
         for i in range(0,len(self.A_x)):
             count=count+self.p.learn(self.A_x[i],self.A_y[i],1)
         for i in range(0,len(self.B_x)):
             count=count+self.p.learn(self.B_x[i],self.B_y[i],0)
-        self.error=1-count/(len(self.A_x)+len(self.B_x))
-        self.resultText = self.resultText + str(self.error) + "\n"
+        self.curr_error=1-count/(len(self.A_x)+len(self.B_x))
+        self.resultText = self.resultText + str(self.curr_error) + "\n"
         try:
             b = self.p.calc_b()
             a = self.p.calc_a()
@@ -68,3 +72,6 @@ class System:
         self.F_y=[]
         for i in self.F_x:
             self.F_y.append(self.lin_function(a,b,i))
+
+    def stop(self):
+        return (self.curr_iteration>self.max_iteration or self.curr_error<=self.error)

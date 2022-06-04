@@ -304,7 +304,7 @@ class Ui_MainWindow(object):
         if self.timer == None:
             self.autoStepButton.setText("Stop")
             self.timer = QtCore.QTimer()
-            self.timer.setInterval(100)
+            self.timer.setInterval(0.1)
             self.timer.timeout.connect(self.updatePlot)
             self.timer.start()
         else:
@@ -326,6 +326,10 @@ class Ui_MainWindow(object):
         self.chart.ax.grid()
         self.chart.draw()
         self.resultText.setPlainText(self.system.resultText)
+        if self.timer != None and self.system.stop():
+            self.autoStepButton.setText("Auto step")
+            self.timer.stop()
+            self.timer = None
 
 
     def getPoints(self):
