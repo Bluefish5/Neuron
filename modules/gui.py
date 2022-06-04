@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from .error import Ui_Dialog
+from .chart import Ui_Dialog2
 from PyQt5 import QtCore, QtGui, QtWidgets
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -325,8 +326,9 @@ class Ui_MainWindow(object):
         self.chart.ax.scatter(self.B_x,self.B_y)
         self.chart.ax.grid()
         self.chart.draw()
+        self.system.getAtribursFromPerceptron()
+        self.system.resultText = self.system.resultText + str(self.system.w1) +" "+ str(self.system.w2) +" "+ str(self.system.w3) + "\n"
         self.resultText.setPlainText(self.system.resultText)
-
 
     def getPoints(self):
         self.A_x = self.system.A_x
@@ -359,3 +361,10 @@ class Ui_MainWindow(object):
         self.restart()
         self.system.fileTextToCoordinates()
         self.codeEdition.setPlainText(str(self.system.fileText))
+
+    def showChart(self):
+        Dialog2 = QtWidgets.QDialog()
+        ui2 = Ui_Dialog2()
+        ui2.setupUi(Dialog2)
+        Dialog2.show()
+        Dialog2.exec_()

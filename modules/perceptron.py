@@ -2,8 +2,7 @@ from os import execl
 
 
 class Preceptron:
-    def __init__(self,system):
-        self.system=system
+    def __init__(self):
         self.w0=100
         self.w1=10
         self.w2=10
@@ -18,6 +17,7 @@ class Preceptron:
         self.w0=self.w0+self.l*diff
         self.w1=self.w1+self.l*(diff*x)
         self.w2=self.w2+self.l*(diff*y)
+
         return (diff==0)
     def calc_a(self):
         try:
@@ -30,4 +30,6 @@ class Preceptron:
             return -self.w0/self.w2
         except:
             raise Exception("ZERO")
+    def getAtributes(self):
+        return self.w0,self.w1,self.w2
         
