@@ -343,7 +343,7 @@ class Ui_MainWindow(object):
         self.F_y = self.system.F_y
     def restart(self):
         self.system.F_y = self.system.F_x
-        self.system.p = Preceptron(self.system)
+        self.system.p = Preceptron()
         self.system.resultText = ""
         self.resultText.setPlainText("")
 

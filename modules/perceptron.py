@@ -3,12 +3,11 @@ import random
 
 
 class Preceptron:
-    def __init__(self,system):
-        self.system=system
+    def __init__(self):
         self.w0=random.randint(-1000000,1000000)
         self.w1=random.randint(-1000000,1000000)
         self.w2=random.randint(-1000000,1000000)
-        self.l=1
+        self.l=100
     def learn(self,x, y, out):
         sum=self.w1*x+self.w2*y+self.w0
         if sum<0:
