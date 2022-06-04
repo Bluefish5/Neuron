@@ -305,7 +305,7 @@ class Ui_MainWindow(object):
         if self.timer == None:
             self.autoStepButton.setText("Stop")
             self.timer = QtCore.QTimer()
-            self.timer.setInterval(100)
+            self.timer.setInterval(0.1)
             self.timer.timeout.connect(self.updatePlot)
             self.timer.start()
         else:
@@ -329,6 +329,10 @@ class Ui_MainWindow(object):
         self.system.getAtribursFromPerceptron()
         self.system.resultText = self.system.resultText + str(self.system.w1) +" "+ str(self.system.w2) +" "+ str(self.system.w3) + "\n"
         self.resultText.setPlainText(self.system.resultText)
+        if self.timer != None and self.system.stop():
+            self.autoStepButton.setText("Auto step")
+            self.timer.stop()
+            self.timer = None
 
     def getPoints(self):
         self.A_x = self.system.A_x
