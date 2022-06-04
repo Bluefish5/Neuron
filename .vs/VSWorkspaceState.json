@@ -3,6 +3,10 @@
     "",
     "\\modules"
   ],
+<<<<<<< HEAD
   "SelectedNode": "\\modules\\perceptron.py",
+=======
+  "SelectedNode": "\\main.py",
+>>>>>>> 775331c65d48891ff32d36f271152a7a79a673ae
   "PreviewInSolutionExplorer": false
 }
