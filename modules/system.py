@@ -12,11 +12,12 @@ class System:
         self.A_y = []
         self.B_x = []
         self.B_y = []
-
+        self.tab = []
         self.fileText = ""
         self.resultText = ""
+        self.resultErrorText = ""
         self.fileName = "data.txt"
-        self.max_iteration = 100000
+        self.maxIteration = 100000
         self.curr_iteration = 0
         self.error = 0.0
         self.curr_error = 0.0
@@ -66,7 +67,7 @@ class System:
         for i in range(0,len(self.B_x)):
             count=count+self.p.learn(self.B_x[i],self.B_y[i],0)
         self.curr_error=1-count/(len(self.A_x)+len(self.B_x))
-        self.resultText = self.resultText + str(self.curr_error) + "\n"
+        self.resultErrorText = self.resultErrorText + str(self.curr_error) + "\n"
         try:
             b = self.p.calc_b()
             a = self.p.calc_a()
@@ -78,4 +79,4 @@ class System:
     def getAtribursFromPerceptron(self):
         self.w0,self.w1,self.w2=self.p.getAtributes()
     def stop(self):
-        return (self.curr_iteration>self.max_iteration or self.curr_error<=self.error)
+        return (self.curr_iteration>self.maxIteration or self.curr_error<=self.error)

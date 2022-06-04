@@ -1,5 +1,6 @@
 
 
+from time import sleep
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtCore, QtGui, QtWidgets
 import matplotlib.pyplot as plt
@@ -18,8 +19,9 @@ class Ui_Dialog2(object):
         self.system=system
 
     def setupUi(self, Dialog):
+        
         Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 300)
+        Dialog.resize(800, 600)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
         self.Wykres = QtWidgets.QLabel(Dialog)
@@ -28,9 +30,15 @@ class Ui_Dialog2(object):
         self.verticalLayout.addWidget(self.Wykres)
 
         self.chart = ChartMPL(Dialog)
-        for i in self.system.resultText.split("\n"):
-            self.chart.ax.plot(int(i))
+        self.system.tab = []
+        self.chart.ax.cla()
+        for i in self.system.resultErrorText.split("\n"):
+            if i == "":
+                break
+            self.system.tab.append(float(i))
+        self.chart.ax.plot(self.system.tab)
         self.chart.show()
+        self.verticalLayout.addWidget(self.chart)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
