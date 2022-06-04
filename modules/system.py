@@ -11,11 +11,14 @@ class System:
         self.B_y = []
         self.error = 1
         self.fileText = ""
-        self.result = ""
+        self.resultText = ""
+        self.fileName = "data.txt"
+        self.maxIteration = 100000
         self.readFromFile()
+        self.fileTextToCoordinates()
         self.most_left_x = min(min(self.A_x),min(self.B_x))
         self.most_right_x = max(max(self.A_x),max(self.B_x))
-        self.p = Preceptron()
+        self.p = Preceptron(self)
         self.F_x = np.linspace(self.most_left_x, self.most_right_x, 10)
         self.F_y = self.F_x
 
@@ -56,7 +59,7 @@ class System:
         for i in range(0,len(self.B_x)):
             count=count+self.p.learn(self.B_x[i],self.B_y[i],0)
         self.error=1-count/(len(self.A_x)+len(self.B_x))
-        print("%f" % (self.error))
+        self.resultText = self.resultText + str(self.error) + "\n"
         try:
             b = self.p.calc_b()
             a = self.p.calc_a()

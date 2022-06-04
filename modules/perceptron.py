@@ -2,7 +2,8 @@ from os import execl
 
 
 class Preceptron:
-    def __init__(self):
+    def __init__(self,system):
+        self.system=system
         self.w0=100
         self.w1=10
         self.w2=10

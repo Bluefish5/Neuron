@@ -325,6 +325,7 @@ class Ui_MainWindow(object):
         self.chart.ax.scatter(self.B_x,self.B_y)
         self.chart.ax.grid()
         self.chart.draw()
+        self.resultText.setPlainText(self.system.resultText)
 
 
     def getPoints(self):
@@ -336,7 +337,8 @@ class Ui_MainWindow(object):
         self.F_y = self.system.F_y
     def restart(self):
         self.system.F_y = self.system.F_x
-        self.system.p = Preceptron()
+        self.system.p = Preceptron(self.system)
+        self.system.resoultText = ""
 
 
     def actionOnClickErrorConfiguration(self):
