@@ -40,7 +40,7 @@ class Ui_Dialog(object):
         self.errorCount.setDecimals(1)
         self.errorCount.setSingleStep(0.1)
         self.errorCount.setObjectName("errorCount")
-        self.errorCount.setValue(self.system.error)
+        self.errorCount.setValue(self.system.currError)
         self.verticalLayout.addWidget(self.errorCount)
 
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
@@ -62,7 +62,7 @@ class Ui_Dialog(object):
         self.errorLabel.setText(_translate("Dialog", "Wartość błędu:"))
 
     def actionOnClick(self):
-        self.system.error=self.errorCount.value()
+        self.system.currError=self.errorCount.value()
         self.system.maxIteration=self.iterationCount.value()
         
 

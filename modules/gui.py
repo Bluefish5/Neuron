@@ -285,6 +285,7 @@ class Ui_MainWindow(object):
         self.chart.draw()
         self.system.fileText = self.codeEdition.toPlainText()
         self.system.fileTextToCoordinates()
+        self.updatePlot()
 
 
     def actionOnClickConfiguration(self):
@@ -327,10 +328,10 @@ class Ui_MainWindow(object):
         self.chart.ax.scatter(self.B_x,self.B_y)
         self.chart.ax.grid()
         self.chart.draw()
-        self.system.getAtribursFromPerceptron()
-        self.system.resultText = self.system.resultText + str(self.system.w1) +" "+ str(self.system.w2) +" "+ str(self.system.w3) + "\n"
+        self.system.generateResaults()             
         self.resultText.setPlainText(self.system.resultText)
-        if self.timer != None and self.system.stop():
+
+        if self.timer != None and self.system.stopCondition():
             self.autoStepButton.setText("Auto step")
             self.timer.stop()
             self.timer = None
@@ -342,6 +343,7 @@ class Ui_MainWindow(object):
         self.B_y = self.system.B_y
         self.F_x = self.system.F_x
         self.F_y = self.system.F_y
+
     def restart(self):
         self.system.F_y = self.system.F_x
         self.system.p = Preceptron()
@@ -349,6 +351,7 @@ class Ui_MainWindow(object):
         self.resultText.setPlainText("")
         self.system.tab = []
         self.system.resultErrorText = ""
+        self.system.currIteration = 0
 
 
     def actionOnClickErrorConfiguration(self):

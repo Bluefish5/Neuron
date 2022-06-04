@@ -18,7 +18,6 @@ class Preceptron:
         self.w0=self.w0+self.l*diff
         self.w1=self.w1+self.l*(diff*x)
         self.w2=self.w2+self.l*(diff*y)
-
         return (diff==0)
     def calc_a(self):
         try:

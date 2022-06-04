@@ -5,32 +5,25 @@ import numpy as np
 
 class System:
     def __init__(self):
-        self.w1=0
-        self.w2=0
-        self.w3=0
         self.A_x = []
         self.A_y = []
         self.B_x = []
         self.B_y = []
         self.tab = []
+        self.maxIteration = 100000
+        self.goalError = 0.0
+        self.p = Preceptron()
         self.fileText = ""
         self.resultText = ""
         self.resultErrorText = ""
-        self.fileName = "data.txt"
-        self.maxIteration = 100000
-        self.curr_iteration = 0
-        self.error = 0.0
-        self.curr_error = 0.0
+        self.defaultFileName = "data.txt"
+        self.currIteration = 0
+        self.currError = 0.0
         self.readFromFile()
         self.fileTextToCoordinates()
-        self.most_left_x = min(min(self.A_x),min(self.B_x))
-        self.most_right_x = max(max(self.A_x),max(self.B_x))
-        self.p = Preceptron()
-        self.F_x = np.linspace(self.most_left_x, self.most_right_x, 10)
-        self.F_y = self.F_x
 
     def readFromFile(self):
-        file = open(self.fileName, "r")
+        file = open(self.defaultFileName, "r")
         text = file.readlines()
         x=0
         self.fileText = ""
@@ -55,19 +48,23 @@ class System:
                         self.B_y.append(float(i.split("\t")[1]))
             else:
                 x=x+1
+        most_left_x = min(min(self.A_x),min(self.B_x))
+        most_right_x = max(max(self.A_x),max(self.B_x))
+        self.F_x = np.linspace(most_left_x, most_right_x, 10)
+        self.F_y = self.F_x
 
     def lin_function(self,a,b,x):
         return a*x+b
 
     def oneStepLearning(self):
         count = 0
-        self.curr_iteration=self.curr_iteration+1
+        self.currIteration=self.currIteration+1
         for i in range(0,len(self.A_x)):
             count=count+self.p.learn(self.A_x[i],self.A_y[i],1)
         for i in range(0,len(self.B_x)):
             count=count+self.p.learn(self.B_x[i],self.B_y[i],0)
-        self.curr_error=1-count/(len(self.A_x)+len(self.B_x))
-        self.resultErrorText = self.resultErrorText + str(self.curr_error) + "\n"
+        self.currError=1-count/(len(self.A_x)+len(self.B_x))
+        self.resultErrorText = self.resultErrorText + str(self.currError) + "\n"
         try:
             b = self.p.calc_b()
             a = self.p.calc_a()
@@ -76,7 +73,13 @@ class System:
         self.F_y=[]
         for i in self.F_x:
             self.F_y.append(self.lin_function(a,b,i))
-    def getAtribursFromPerceptron(self):
-        self.w0,self.w1,self.w2=self.p.getAtributes()
-    def stop(self):
-        return (self.curr_iteration>self.maxIteration or self.curr_error<=self.error)
+        
+    def stopCondition(self):
+        return (self.currIteration>self.maxIteration or self.currError<=self.goalError)
+    
+    def generateResaults(self):
+        w0,w1,w2=self.p.getAtributes()
+        self.resultText = "Iter: " + str(self.currIteration) + "\nw0: "+ str(w0) + "\nw1: " + str(w1) +"\nw2: "+ str(w2) + "\nf(x)=" + str(round(self.p.calc_a(),2)) + "x"
+        if self.p.calc_b()>=0:
+            self.resultText=self.resultText+"+"
+        self.resultText=self.resultText+str(round(self.p.calc_b(),2))+"\nError: "+str(round(self.currError,5))
