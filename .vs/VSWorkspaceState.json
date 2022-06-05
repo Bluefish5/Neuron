@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\bin",
     "\\modules",
-    "\\ui designer"
+    "\\modules\\__pycache__",
+    "\\src"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\bin\\Neuron.exe",
   "PreviewInSolutionExplorer": false
 }

@@ -265,7 +265,7 @@ class Ui_MainWindow(object):
         self.readButton.setText(_translate("MainWindow", "Wczytaj"))
         #self.saveButton.setText(_translate("MainWindow", "Zapisz"))
         self.learningButton.setText(_translate("MainWindow", "Uczenie"))
-        self.configurationButton.setText(_translate("MainWindow", "Configuracja"))
+        self.configurationButton.setText(_translate("MainWindow", "Konfiguracja"))
         self.restartButton.setText(_translate("MainWindow", "Restart"))
         self.oneStepButton.setText(_translate("MainWindow", "One Step"))
         self.autoStepButton.setText(_translate("MainWindow", "Auto step"))
