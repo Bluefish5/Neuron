@@ -61,11 +61,11 @@ class Ui_MainWindow(object):
 
 
         self.verticalLayout_2.addWidget(self.readButton)
-        self.saveButton = QtWidgets.QPushButton(self.leftMainFrame)
-        self.saveButton.setMinimumSize(QtCore.QSize(0, 30))
-        self.saveButton.setObjectName("saveButton")
+        #self.saveButton = QtWidgets.QPushButton(self.leftMainFrame)
+        #self.saveButton.setMinimumSize(QtCore.QSize(0, 30))
+        #self.saveButton.setObjectName("saveButton")
 
-        self.verticalLayout_2.addWidget(self.saveButton)
+        #self.verticalLayout_2.addWidget(self.saveButton)
         self.configurationLearingFrame = QtWidgets.QFrame(self.leftMainFrame)
         self.configurationLearingFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.configurationLearingFrame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -263,7 +263,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.readButton.setText(_translate("MainWindow", "Wczytaj"))
-        self.saveButton.setText(_translate("MainWindow", "Zapisz"))
+        #self.saveButton.setText(_translate("MainWindow", "Zapisz"))
         self.learningButton.setText(_translate("MainWindow", "Uczenie"))
         self.configurationButton.setText(_translate("MainWindow", "Configuracja"))
         self.restartButton.setText(_translate("MainWindow", "Restart"))
@@ -307,7 +307,7 @@ class Ui_MainWindow(object):
         if self.timer == None:
             self.autoStepButton.setText("Stop")
             self.timer = QtCore.QTimer()
-            self.timer.setInterval(0.001)
+            self.timer.setInterval(1)
             self.timer.timeout.connect(self.updatePlot)
             self.timer.start()
         else:
