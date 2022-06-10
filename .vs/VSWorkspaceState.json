@@ -2,10 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\bin",
-    "\\modules",
-    "\\modules\\__pycache__",
-    "\\src"
+    "\\src",
+    "\\src\\modules"
   ],
-  "SelectedNode": "\\bin\\Neuron.exe",
+  "SelectedNode": "\\src\\modules\\perceptron.py",
   "PreviewInSolutionExplorer": false
 }

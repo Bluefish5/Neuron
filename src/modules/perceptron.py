@@ -4,21 +4,24 @@ import random
 
 class Preceptron:
     def __init__(self):
-        self.w0=random.randint(-1000000,1000000)
-        self.w1=random.randint(-1000000,1000000)
-        self.w2=random.randint(-1000000,1000000)
-        self.l=100
+        self.w0=random.random()
+        self.w1=random.random()
+        self.w2=random.random()
+        self.l=0.001
     def learn(self,x, y, out):
-        sum=self.w1*x+self.w2*y+self.w0
-        if sum<0:
-            sum=0
-        else:
-            sum=1
-        diff=out-sum
+        suma=self.w1*x+self.w2*y+self.w0
+        diff=out-suma
         self.w0=self.w0+self.l*diff
-        self.w1=self.w1+self.l*(diff*x)
-        self.w2=self.w2+self.l*(diff*y)
-        return (diff==0)
+        self.w1=self.w1+self.l*diff*x
+        self.w2=self.w2+self.l*diff*y
+        if suma<=0:
+            suma=0
+        else:
+            suma=1
+        if suma==out:
+            return 1
+        else:
+            return 0
     def calc_a(self):
         try:
             return -self.w1/self.w2

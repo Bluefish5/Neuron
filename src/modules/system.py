@@ -64,6 +64,7 @@ class System:
         for i in range(0,len(self.B_x)):
             count=count+self.p.learn(self.B_x[i],self.B_y[i],0)
         self.currError=1-count/(len(self.A_x)+len(self.B_x))
+        
         self.resultErrorText = self.resultErrorText + str(self.currError) + "\n"
         try:
             b = self.p.calc_b()
