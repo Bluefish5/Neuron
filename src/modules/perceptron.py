@@ -7,7 +7,7 @@ class Preceptron:
         self.w0=random.random()
         self.w1=random.random()
         self.w2=random.random()
-        self.l=0.001
+        self.l=0.0002
     def learn(self,x, y, out):
         suma=self.w1*x+self.w2*y+self.w0
         diff=out-suma
