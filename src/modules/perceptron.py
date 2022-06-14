@@ -1,3 +1,4 @@
+
 from os import execl
 import random
 
@@ -7,17 +8,19 @@ class Preceptron:
         self.w0=random.random()
         self.w1=random.random()
         self.w2=random.random()
-        self.l=0.0002
+        self.l=0.00026
     def learn(self,x, y, out):
         suma=self.w1*x+self.w2*y+self.w0
         diff=out-suma
-        self.w0=self.w0+self.l*diff
-        self.w1=self.w1+self.l*diff*x
-        self.w2=self.w2+self.l*diff*y
-        if suma<=0:
-            suma=0
-        else:
+        self.w0=self.w0+(self.l*diff)
+        self.w1=self.w1+(self.l*diff*x)
+        self.w2=self.w2+(self.l*diff*y)
+    def calculate(self,x,y,out):
+        suma=self.w1*x+self.w2*y+self.w0
+        if suma>0:
             suma=1
+        else:
+            suma=0
         if suma==out:
             return 1
         else:

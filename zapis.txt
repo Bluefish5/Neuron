@@ -1,7 +1,7 @@
 #Dane do zbioru A
-1	0
+1	1
+5	6
 
 #Dane do zbioru B
-0	0
 0	1
-1	1
+0	0
